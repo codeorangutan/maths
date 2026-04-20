@@ -1172,30 +1172,23 @@ function renderInlineMathSafe(text) {
 
   // Temporarily preserve HTML tags by replacing them with placeholders
   const htmlTags = [];
-  processed = processed.replace(/<[^>]+>/g, (match) => {
+  processed = processed.replace(/<[a-zA-Z/][^>]*>/g, (match) => {
     htmlTags.push(match);
-    return `\x00HTML${htmlTags.length - 1}\x00`;
+    return `__HTML_TAG_${htmlTags.length - 1}__`;
   });
 
-  // Process math expressions
-  processed = processed.replace(/\\\(.+?\\\)/g, (match) => {
-    return match; // Preserve \( ... \) math
-  });
-  processed = processed.replace(/\\\[.+?\\\]/g, (match) => {
-    return match; // Preserve \[ ... \] math
-  });
-  processed = processed.replace(/\$[^$]+\$/g, (match) => {
-    return match; // Preserve $...$ math
-  });
+  // Process math expressions - preserve \( ... \) and $...$
+  // These are handled by MathJax later
 
-  // Escape remaining HTML content
-  processed = processed.replace(/[&<>"']/g, (char) => {
-    const escapes = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-    return escapes[char];
-  });
+  // Escape remaining HTML content (only < > & " ')
+  processed = processed.replace(/&/g, "&amp;");
+  processed = processed.replace(/</g, "&lt;");
+  processed = processed.replace(/>/g, "&gt;");
+  processed = processed.replace(/"/g, "&quot;");
+  processed = processed.replace(/'/g, "&#39;");
 
   // Restore HTML tags
-  processed = processed.replace(/\x00HTML(\d+)\x00/g, (_, index) => htmlTags[parseInt(index)]);
+  processed = processed.replace(/__HTML_TAG_(\d+)__/g, (_, index) => htmlTags[parseInt(index)]);
 
   return processed;
 }
