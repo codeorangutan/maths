@@ -1245,8 +1245,27 @@ function renderInlineMathSafe(text) {
 }
 
 function maybeTypesetMath(target) {
-  if (!window.MathJax || !window.MathJax.typesetPromise) return;
-  window.MathJax.typesetPromise([target]).catch(() => {});
+  if (!window.MathJax) return;
+  // Wait for MathJax to be ready
+  const typeset = () => {
+    if (window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([target]).catch(() => {});
+    }
+  };
+  // If MathJax is already loaded, typeset immediately
+  if (window.MathJax.typesetPromise) {
+    typeset();
+  } else {
+    // Otherwise wait for it to load
+    const checkInterval = setInterval(() => {
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        clearInterval(checkInterval);
+        typeset();
+      }
+    }, 100);
+    // Give up after 5 seconds
+    setTimeout(() => clearInterval(checkInterval), 5000);
+  }
 }
 
 function processInlineMarkdown(text) {
