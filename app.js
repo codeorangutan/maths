@@ -1250,14 +1250,65 @@ function maybeTypesetMath(target) {
 }
 
 function processInlineMarkdown(text) {
-  // Process bold: **text** or __text__
-  let processed = String(text);
-  processed = processed.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-  processed = processed.replace(/__(.+?)__/g, "<strong>$1</strong>");
-  // Process italic: *text* or _text_ (but not already processed bold)
-  processed = processed.replace(/\*(.+?)\*/g, "<em>$1</em>");
-  processed = processed.replace(/_(.+?)_/g, "<em>$1</em>");
-  return processed;
+  let str = String(text);
+
+  // Tokenize: split into math expressions and regular text
+  const parts = [];
+  let i = 0;
+
+  while (i < str.length) {
+    // Check for \( inline math
+    if (str.slice(i, i + 2) === '\\(') {
+      const endIdx = str.indexOf('\\)', i + 2);
+      if (endIdx !== -1) {
+        parts.push({ type: 'math', content: str.slice(i, endIdx + 2) });
+        i = endIdx + 2;
+        continue;
+      }
+    }
+    // Check for \[ display math
+    if (str.slice(i, i + 2) === '\\[') {
+      const endIdx = str.indexOf('\\]', i + 2);
+      if (endIdx !== -1) {
+        parts.push({ type: 'math', content: str.slice(i, endIdx + 2) });
+        i = endIdx + 2;
+        continue;
+      }
+    }
+    // Check for $ inline math
+    if (str[i] === '$') {
+      const endIdx = str.indexOf('$', i + 1);
+      if (endIdx !== -1) {
+        parts.push({ type: 'math', content: str.slice(i, endIdx + 1) });
+        i = endIdx + 1;
+        continue;
+      }
+    }
+    // Regular text - accumulate until we hit math
+    let textEnd = i + 1;
+    while (textEnd < str.length) {
+      if (str[textEnd] === '$' || str.slice(textEnd, textEnd + 2) === '\\(' || str.slice(textEnd, textEnd + 2) === '\\[') {
+        break;
+      }
+      textEnd++;
+    }
+    parts.push({ type: 'text', content: str.slice(i, textEnd) });
+    i = textEnd;
+  }
+
+  // Process each text part with markdown, preserve math
+  return parts.map(part => {
+    if (part.type === 'math') {
+      return part.content;
+    }
+    // Apply markdown processing to text only
+    let processed = part.content;
+    processed = processed.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    processed = processed.replace(/__(.+?)__/g, "<strong>$1</strong>");
+    processed = processed.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    processed = processed.replace(/_(.+?)_/g, "<em>$1</em>");
+    return processed;
+  }).join('');
 }
 
 function markdownToTeachingHtml(markdown) {
