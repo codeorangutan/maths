@@ -1175,10 +1175,16 @@ function renderInlineMathSafe(text) {
   while (i < processed.length) {
     // Check for \( inline math start
     if (processed.slice(i, i + 2) === "\\(") {
-      // Find the closing \)
-      const endIdx = processed.indexOf("\\)", i + 2);
-      if (endIdx !== -1) {
-        // Extract the math content including delimiters
+      // Find the closing \) by looking for backslash followed by )
+      let endIdx = i + 2;
+      while (endIdx < processed.length - 1) {
+        if (processed[endIdx] === "\\" && processed[endIdx + 1] === ")") {
+          break;
+        }
+        endIdx++;
+      }
+      if (endIdx < processed.length - 1) {
+        // Extract the math content including delimiters (add 2 for \))
         const mathExpr = processed.slice(i, endIdx + 2);
         result += mathExpr;
         i = endIdx + 2;
@@ -1187,8 +1193,14 @@ function renderInlineMathSafe(text) {
     }
     // Check for \[ display math start
     if (processed.slice(i, i + 2) === "\\[") {
-      const endIdx = processed.indexOf("\\]", i + 2);
-      if (endIdx !== -1) {
+      let endIdx = i + 2;
+      while (endIdx < processed.length - 1) {
+        if (processed[endIdx] === "\\" && processed[endIdx + 1] === "]") {
+          break;
+        }
+        endIdx++;
+      }
+      if (endIdx < processed.length - 1) {
         const mathExpr = processed.slice(i, endIdx + 2);
         result += mathExpr;
         i = endIdx + 2;
