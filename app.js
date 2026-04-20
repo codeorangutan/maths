@@ -1169,59 +1169,35 @@ function formatDisplayMath(text) {
 function renderInlineMathSafe(text) {
   // First, convert escaped dollar signs \$ to regular $
   let processed = String(text).replace(/\\\$/g, "$");
-  // Process the text character by character to properly handle math delimiters
-  let result = "";
-  let i = 0;
-  while (i < processed.length) {
-    // Check for \( inline math start
-    if (processed.slice(i, i + 2) === "\\(") {
-      // Find the closing \) by looking for backslash followed by )
-      let endIdx = i + 2;
-      while (endIdx < processed.length - 1) {
-        if (processed[endIdx] === "\\" && processed[endIdx + 1] === ")") {
-          break;
-        }
-        endIdx++;
-      }
-      if (endIdx < processed.length - 1) {
-        // Extract the math content including delimiters (add 2 for \))
-        const mathExpr = processed.slice(i, endIdx + 2);
-        result += mathExpr;
-        i = endIdx + 2;
-        continue;
-      }
-    }
-    // Check for \[ display math start
-    if (processed.slice(i, i + 2) === "\\[") {
-      let endIdx = i + 2;
-      while (endIdx < processed.length - 1) {
-        if (processed[endIdx] === "\\" && processed[endIdx + 1] === "]") {
-          break;
-        }
-        endIdx++;
-      }
-      if (endIdx < processed.length - 1) {
-        const mathExpr = processed.slice(i, endIdx + 2);
-        result += mathExpr;
-        i = endIdx + 2;
-        continue;
-      }
-    }
-    // Check for $...$ inline math
-    if (processed[i] === "$") {
-      const endIdx = processed.indexOf("$", i + 1);
-      if (endIdx !== -1) {
-        const mathExpr = processed.slice(i, endIdx + 1);
-        result += mathExpr;
-        i = endIdx + 1;
-        continue;
-      }
-    }
-    // Regular character - escape it
-    result += escapeHtml(processed[i]);
-    i++;
-  }
-  return result;
+
+  // Temporarily preserve HTML tags by replacing them with placeholders
+  const htmlTags = [];
+  processed = processed.replace(/<[^>]+>/g, (match) => {
+    htmlTags.push(match);
+    return `\x00HTML${htmlTags.length - 1}\x00`;
+  });
+
+  // Process math expressions
+  processed = processed.replace(/\\\(.+?\\\)/g, (match) => {
+    return match; // Preserve \( ... \) math
+  });
+  processed = processed.replace(/\\\[.+?\\\]/g, (match) => {
+    return match; // Preserve \[ ... \] math
+  });
+  processed = processed.replace(/\$[^$]+\$/g, (match) => {
+    return match; // Preserve $...$ math
+  });
+
+  // Escape remaining HTML content
+  processed = processed.replace(/[&<>"']/g, (char) => {
+    const escapes = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+    return escapes[char];
+  });
+
+  // Restore HTML tags
+  processed = processed.replace(/\x00HTML(\d+)\x00/g, (_, index) => htmlTags[parseInt(index)]);
+
+  return processed;
 }
 
 function maybeTypesetMath(target) {
