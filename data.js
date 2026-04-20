@@ -384,6 +384,348 @@ window.ELITE_MATHS_DATA = {
       ],
       quiz: [],
       answerKey: {}
+    },
+    {
+      id: "L04",
+      title: "Lesson 04 - Exponential and Logarithmic Foundations for Methods Acceleration",
+      meta: "Year 10 · Term 1 · Week 2",
+      mdFile: "Lesson_04.md",
+      objectives: [
+        "Build fluent movement between exponential and logarithmic forms",
+        "Develop strong equation-solving accuracy",
+        "Establish interpretation discipline"
+      ],
+      teachingPoints: [
+        "Exponential laws and simplification",
+        "Logarithmic definition and conversion",
+        "Equation-solving with domain verification"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L05",
+      title: "Lesson 05 - Function Transformations, Inverses, and Composite Structure",
+      meta: "Year 10 · Term 1 · Week 2",
+      mdFile: "Lesson_05.md",
+      objectives: [
+        "Master function transformations",
+        "Compute compositions with correct order",
+        "Synthesize inverse relationships with verification"
+      ],
+      teachingPoints: [
+        "Translation, reflection, dilation rules",
+        "Composition order of operations",
+        "Inverse verification protocols"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L06",
+      title: "Lesson 06 - Coordinate Geometry: Lines, Distance, Midpoint, and Locus Precision",
+      meta: "Year 10 · Term 1 · Week 2",
+      mdFile: "Lesson_06.md",
+      objectives: [
+        "Secure high-speed coordinate reasoning",
+        "Support graph modelling and calculus geometry",
+        "Enable vector transition"
+      ],
+      teachingPoints: [
+        "Line equations and gradient calculations",
+        "Distance and midpoint formulas",
+        "Locus interpretation"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L07",
+      title: "Lesson 07 - Trigonometric Ratios, Exact Values, and Modelling Foundations",
+      meta: "Year 10 · Term 1 · Week 3",
+      mdFile: "Lesson_07.md",
+      objectives: [
+        "Establish exact-value fluency",
+        "Apply trigonometric modelling",
+        "Prepare for advanced methods and specialist geometry"
+      ],
+      teachingPoints: [
+        "Sine, cosine, tangent ratios",
+        "Special angle exact values",
+        "Applied modelling contexts"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L08",
+      title: "Lesson 08 - Probability Foundations: Counting, Conditional Logic, and Tree Modelling",
+      meta: "Year 10 · Term 1 · Week 3",
+      mdFile: "Lesson_08.md",
+      objectives: [
+        "Build probability fluency",
+        "Develop ATAR-style interpretation",
+        "Apply combinatorial reasoning"
+      ],
+      teachingPoints: [
+        "Counting principles",
+        "Conditional probability",
+        "Tree diagram modelling"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L10",
+      title: "Lesson 10 - Introductory Differentiation and Rate Interpretation",
+      meta: "Year 10 · Term 1 · Week 4",
+      mdFile: "Lesson_10.md",
+      objectives: [
+        "Launch calculus readiness",
+        "Understand derivative-as-rate",
+        "Build polynomial differentiation fluency"
+      ],
+      teachingPoints: [
+        "Limit definition of derivative",
+        "Power rule application",
+        "Rate interpretation"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L11",
+      title: "Lesson 11 - Introductory Integration and Area Modelling",
+      meta: "Year 10 · Term 1 · Week 4",
+      mdFile: "Lesson_11.md",
+      objectives: [
+        "Build first-principles understanding of antiderivatives",
+        "Understand area accumulation",
+        "Support later calculus applications"
+      ],
+      teachingPoints: [
+        "Antiderivative concept",
+        "Area under curves",
+        "Fundamental theorem introduction"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L12",
+      title: "Lesson 12 - Mixed Mastery Assessment and Repair Cycle Launch",
+      meta: "Year 10 · Term 1 · Week 4",
+      mdFile: "Lesson_12.md",
+      objectives: [
+        "Consolidate first-term accelerated foundations",
+        "Complete mixed-format assessment",
+        "Trigger targeted repair loops for weak strands"
+      ],
+      teachingPoints: [
+        "Mixed problem-solving strategies",
+        "Error analysis protocols",
+        "Repair cycle procedures"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L13",
+      title: "Lesson 13 - Polynomial Identities, Remainder Theorem, and Inequality Control",
+      meta: "Year 10 · Term 2 · Week 1",
+      mdFile: "Lesson_13.md",
+      objectives: [
+        "Build fluent control of polynomial algebra",
+        "Apply strategic identity use",
+        "Solve rigorous inequalities with full interval analysis"
+      ],
+      teachingPoints: [
+        "Polynomial division and factor theorem",
+        "Remainder theorem applications",
+        "Inequality solving with sign charts"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L14",
+      title: "Lesson 14 - Quadratic Parameters, Root Analysis, and Line-Parabola Systems",
+      meta: "Year 10 · Term 2 · Week 1",
+      mdFile: "Lesson_14.md",
+      objectives: [
+        "Master discriminant-based reasoning",
+        "Solve parameter problems systematically",
+        "Interpret line-parabola intersections geometrically"
+      ],
+      teachingPoints: [
+        "Discriminant and root analysis",
+        "Parameter variation effects",
+        "Geometric interpretation of intersections"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L15",
+      title: "Lesson 15 - Exponential and Logarithmic Modelling with Domain Discipline",
+      meta: "Year 10 · Term 2 · Week 2",
+      mdFile: "Lesson_15.md",
+      objectives: [
+        "Master exponential growth/decay modelling",
+        "Solve logarithmic equations with domain verification",
+        "Interpret parameters in real-world contexts"
+      ],
+      teachingPoints: [
+        "Exponential model construction",
+        "Logarithmic equation solving",
+        "Domain restriction analysis"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L17",
+      title: "Lesson 17 - Circle Geometry in the Coordinate Plane",
+      meta: "Year 10 · Term 2 · Week 3",
+      mdFile: "Lesson_17.md",
+      objectives: [
+        "Master circle equation forms",
+        "Develop systematic tangent finding procedures",
+        "Connect geometric properties with algebraic methods"
+      ],
+      teachingPoints: [
+        "Standard and general circle forms",
+        "Tangent line equations",
+        "Geometric-algebraic connections"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L18",
+      title: "Lesson 18 - Trigonometric Equations and Sinusoidal Modelling",
+      meta: "Year 10 · Term 2 · Week 3",
+      mdFile: "Lesson_18.md",
+      objectives: [
+        "Master trigonometric equation solving across intervals",
+        "Apply identities strategically",
+        "Extract precise parameters from sinusoidal models"
+      ],
+      teachingPoints: [
+        "General solution methods",
+        "Trigonometric identities",
+        "Sinusoidal parameter extraction"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L19",
+      title: "Lesson 19 - Rational Expressions, Restrictions, and Nonlinear Systems",
+      meta: "Year 10 · Term 2 · Week 4",
+      mdFile: "Lesson_19.md",
+      objectives: [
+        "Master manipulation of rational expressions",
+        "Solve rational equations systematically",
+        "Handle mixed algebraic systems with reciprocal structure"
+      ],
+      teachingPoints: [
+        "Rational expression simplification",
+        "Domain restriction discipline",
+        "Nonlinear system solving"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L20",
+      title: "Lesson 20 - Advanced Quadratic Modelling and Optimisation",
+      meta: "Year 10 · Term 2 · Week 4",
+      mdFile: "Lesson_20.md",
+      objectives: [
+        "Build quadratic models from contextual constraints",
+        "Locate extrema systematically",
+        "Interpret results with full contextual meaning"
+      ],
+      teachingPoints: [
+        "Contextual model construction",
+        "Vertex and extremum analysis",
+        "Realistic domain restrictions"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L21",
+      title: "Lesson 21 - Function Transformations, Compositions, and Inverse Chains",
+      meta: "Year 10 · Term 3 · Week 1",
+      mdFile: "Lesson_21.md",
+      objectives: [
+        "Master sequential function transformations",
+        "Compute compositions with correct order of operations",
+        "Synthesize inverse function relationships with full verification"
+      ],
+      teachingPoints: [
+        "Sequential transformation order",
+        "Composition computation",
+        "Inverse verification protocols"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L22",
+      title: "Lesson 22 - Differential Calculus: Curve Analysis and Optimisation",
+      meta: "Year 10 · Term 3 · Week 1",
+      mdFile: "Lesson_22.md",
+      objectives: [
+        "Master differentiation techniques",
+        "Analyze curve behavior through derivative sign analysis",
+        "Apply calculus to optimisation problems with rigorous justification"
+      ],
+      teachingPoints: [
+        "Differentiation rules and techniques",
+        "First and second derivative tests",
+        "Optimisation problem-solving"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L23",
+      title: "Lesson 23 - Integration: Area, Accumulation, and Signed Interpretation",
+      meta: "Year 10 · Term 3 · Week 2",
+      mdFile: "Lesson_23.md",
+      objectives: [
+        "Master basic integration techniques",
+        "Compute areas under curves with proper bound handling",
+        "Interpret definite integrals as net accumulation"
+      ],
+      teachingPoints: [
+        "Integration techniques",
+        "Area calculations",
+        "Signed area interpretation"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
+      id: "L24",
+      title: "Lesson 24 - Term Mastery Checkpoint and Repair Cycle Launch",
+      meta: "Year 10 · Term 3 · Week 2",
+      mdFile: "Lesson_24.md",
+      objectives: [
+        "Consolidate Year 10 Term 2-3 foundations",
+        "Execute targeted repair cycles for identified weaknesses",
+        "Establish systematic protocols for sustained improvement"
+      ],
+      teachingPoints: [
+        "Mixed-format assessment strategies",
+        "Error analysis and repair",
+        "Sustained improvement protocols"
+      ],
+      quiz: [],
+      answerKey: {}
     }
   ],
   adaptiveBank: {
