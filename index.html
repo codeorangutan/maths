@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elite Maths Coach</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" onerror="console.error('MathJax failed to load from CDN')"></script>
+  <script>
+    // Debug: Check MathJax status after page load
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (!window.MathJax) {
+          console.error('CRITICAL: MathJax not loaded after 3 seconds');
+        } else if (!window.MathJax.typesetPromise) {
+          console.error('CRITICAL: MathJax loaded but typesetPromise not available');
+        } else {
+          console.log('MathJax loaded successfully');
+        }
+      }, 3000);
+    });
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Elite Maths Coach</h1>
+      <p class="subtitle">Self-study mode: topics + questions + instant checking</p>
+    </div>
+    <div class="student-box">
+      <label for="studentName">Student</label>
+      <select id="studentSelect" aria-label="Select saved student">
+        <option value="">Saved students</option>
+      </select>
+      <input id="studentName" type="text" placeholder="Enter student name" />
+      <button id="saveStudentBtn">Save</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel sidebar">
+      <h2>Lessons</h2>
+      <ul id="lessonList" class="lesson-list"></ul>
+      <button id="resetProgressBtn" class="danger">Reset Progress</button>
+    </aside>
+
+    <section class="content-column">
+      <section class="panel lesson-area">
+        <div class="lesson-head-row">
+          <div id="lessonHeader"></div>
+        </div>
+
+        <div class="lesson-tabs" id="lessonTabs">
+          <button type="button" class="tab-btn active" data-tab="teaching">Teaching</button>
+          <button type="button" class="tab-btn" data-tab="routine">Routine Questions</button>
+          <button type="button" class="tab-btn" data-tab="challenge">Challenge</button>
+        </div>
+
+        <section id="tabTeaching" class="tab-panel">
+          <h3>New Concepts</h3>
+          <ul id="objectivesList" class="topics-list"></ul>
+          <h3>Teaching Focus</h3>
+          <ul id="teachingPointsList" class="topics-list"></ul>
+          <h3>Topic Notes</h3>
+          <div id="teachingNotes" class="teaching-notes"></div>
+        </section>
+
+        <section id="tabRoutine" class="tab-panel hidden">
+          <div class="actions">
+            <button id="completeLessonBtn" type="button">Complete Routine Set (10)</button>
+          </div>
+          <form id="quizForm"></form>
+          <div id="quizResult" class="result-box"></div>
+
+          <section id="adaptiveSection" class="adaptive-wrap hidden">
+            <h3>Targeted Practice</h3>
+            <p class="hint">These are auto-generated from your weaker strands.</p>
+            <form id="adaptiveForm"></form>
+            <div class="actions">
+              <button id="submitAdaptiveBtn" type="button">Finish Targeted Practice</button>
+            </div>
+            <div id="adaptiveResult" class="result-box"></div>
+          </section>
+        </section>
+
+        <section id="tabChallenge" class="tab-panel hidden">
+          <div class="actions">
+            <button id="completeChallengeBtn" type="button">Complete Challenge Set (5)</button>
+          </div>
+          <form id="challengeForm"></form>
+          <div id="challengeResult" class="result-box"></div>
+        </section>
+      </section>
+
+      <aside class="panel analytics">
+        <h2>Your Progress</h2>
+        <div class="actions row">
+          <button id="exportCsvBtn" type="button">Export</button>
+          <button id="printReportBtn" type="button">Print</button>
+        </div>
+        <div id="summaryStats"></div>
+
+        <h3>Strand Tracker</h3>
+        <div id="weaknessTableWrap"></div>
+
+        <h3>Focus Next</h3>
+        <ul id="focusList"></ul>
+
+        <h3>Recent Sessions</h3>
+        <ul id="recentAttempts"></ul>
+      </aside>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
