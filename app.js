@@ -1229,6 +1229,17 @@ function maybeTypesetMath(target) {
   window.MathJax.typesetPromise([target]).catch(() => {});
 }
 
+function processInlineMarkdown(text) {
+  // Process bold: **text** or __text__
+  let processed = String(text);
+  processed = processed.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  processed = processed.replace(/__(.+?)__/g, "<strong>$1</strong>");
+  // Process italic: *text* or _text_ (but not already processed bold)
+  processed = processed.replace(/\*(.+?)\*/g, "<em>$1</em>");
+  processed = processed.replace(/_(.+?)_/g, "<em>$1</em>");
+  return processed;
+}
+
 function markdownToTeachingHtml(markdown) {
   const lines = String(markdown || "").replace(/\r\n/g, "\n").split("\n");
   const html = [];
@@ -1312,19 +1323,24 @@ function markdownToTeachingHtml(markdown) {
     }
 
     // Handle headers
+    if (line.startsWith("#### ")) {
+      flushList();
+      html.push(`<h5>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(5))))}</h5>`);
+      continue;
+    }
     if (line.startsWith("### ")) {
       flushList();
-      html.push(`<h4>${renderInlineMathSafe(formatDisplayMath(line.slice(4)))}</h4>`);
+      html.push(`<h4>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(4))))}</h4>`);
       continue;
     }
     if (line.startsWith("## ")) {
       flushList();
-      html.push(`<h3>${renderInlineMathSafe(formatDisplayMath(line.slice(3)))}</h3>`);
+      html.push(`<h3>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(3))))}</h3>`);
       continue;
     }
     if (line.startsWith("# ")) {
       flushList();
-      html.push(`<h2>${renderInlineMathSafe(formatDisplayMath(line.slice(2)))}</h2>`);
+      html.push(`<h2>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(2))))}</h2>`);
       continue;
     }
 
@@ -1334,7 +1350,7 @@ function markdownToTeachingHtml(markdown) {
         html.push("<ul>");
         inList = true;
       }
-      html.push(`<li>${renderInlineMathSafe(formatDisplayMath(line.slice(2)))}</li>`);
+      html.push(`<li>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(2))))}</li>`);
       continue;
     }
 
@@ -1345,13 +1361,13 @@ function markdownToTeachingHtml(markdown) {
         inList = true;
       }
       const content = line.replace(/^\d+\.\s/, "");
-      html.push(`<li>${renderInlineMathSafe(formatDisplayMath(content))}</li>`);
+      html.push(`<li>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(content)))}</li>`);
       continue;
     }
 
     // Regular paragraph
     flushList();
-    html.push(`<p>${renderInlineMathSafe(formatDisplayMath(rawLine))}</p>`);
+    html.push(`<p>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(rawLine)))}</p>`);
   }
 
   flushList();
