@@ -1169,16 +1169,47 @@ function formatDisplayMath(text) {
 function renderInlineMathSafe(text) {
   // First, convert escaped dollar signs \$ to regular $
   let processed = String(text).replace(/\\\$/g, "$");
-  // Split on inline math delimiters \( ... \) or $ ... $ or display math \[ ... \]
-  const chunks = processed.split(/(\\\(.+?\\\)|\\\[.+?\\\]|\$[^$]+\$)/g);
-  return chunks.map((chunk) => {
-    if (!chunk) return "";
-    // Check if chunk is math (preserve as-is)
-    if (/^\\\(.+\\\)$/.test(chunk) || /^\\\[.+\\\]$/.test(chunk) || /^\$[^$]+\$$/.test(chunk)) {
-      return chunk;
+  // Process the text character by character to properly handle math delimiters
+  let result = "";
+  let i = 0;
+  while (i < processed.length) {
+    // Check for \( inline math start
+    if (processed.slice(i, i + 2) === "\\(") {
+      // Find the closing \)
+      const endIdx = processed.indexOf("\\)", i + 2);
+      if (endIdx !== -1) {
+        // Extract the math content including delimiters
+        const mathExpr = processed.slice(i, endIdx + 2);
+        result += mathExpr;
+        i = endIdx + 2;
+        continue;
+      }
     }
-    return escapeHtml(chunk);
-  }).join("");
+    // Check for \[ display math start
+    if (processed.slice(i, i + 2) === "\\[") {
+      const endIdx = processed.indexOf("\\]", i + 2);
+      if (endIdx !== -1) {
+        const mathExpr = processed.slice(i, endIdx + 2);
+        result += mathExpr;
+        i = endIdx + 2;
+        continue;
+      }
+    }
+    // Check for $...$ inline math
+    if (processed[i] === "$") {
+      const endIdx = processed.indexOf("$", i + 1);
+      if (endIdx !== -1) {
+        const mathExpr = processed.slice(i, endIdx + 1);
+        result += mathExpr;
+        i = endIdx + 1;
+        continue;
+      }
+    }
+    // Regular character - escape it
+    result += escapeHtml(processed[i]);
+    i++;
+  }
+  return result;
 }
 
 function maybeTypesetMath(target) {
