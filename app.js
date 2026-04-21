@@ -1245,41 +1245,26 @@ function renderInlineMathSafe(text) {
 }
 
 function maybeTypesetMath(target) {
-  console.log('maybeTypesetMath called, MathJax exists:', !!window.MathJax);
-  if (!window.MathJax) {
-    console.error('MathJax not available');
-    return;
-  }
+  if (!window.MathJax) return;
   // Wait for MathJax to be ready
   const typeset = () => {
-    console.log('Attempting to typeset...');
     if (window.MathJax.typesetPromise) {
-      window.MathJax.typesetPromise([target])
-        .then(() => console.log('Typeset successful'))
-        .catch((err) => console.error('Typeset error:', err));
-    } else {
-      console.error('typesetPromise not available');
+      window.MathJax.typesetPromise([target]).catch(() => {});
     }
   };
   // If MathJax is already loaded, typeset immediately
   if (window.MathJax.typesetPromise) {
-    console.log('MathJax ready, typesetting immediately');
     typeset();
   } else {
-    console.log('MathJax not ready, waiting...');
     // Otherwise wait for it to load
     const checkInterval = setInterval(() => {
       if (window.MathJax && window.MathJax.typesetPromise) {
-        console.log('MathJax now ready');
         clearInterval(checkInterval);
         typeset();
       }
     }, 100);
     // Give up after 5 seconds
-    setTimeout(() => {
-      console.error('Timed out waiting for MathJax');
-      clearInterval(checkInterval);
-    }, 5000);
+    setTimeout(() => clearInterval(checkInterval), 5000);
   }
 }
 
@@ -1502,20 +1487,15 @@ function renderTeachingNotesForLesson(lesson, teachingNotes) {
 
   if (!lesson?.mdFile) return;
   const lessonIdAtRequest = lesson.id;
-  console.log('Loading markdown for lesson:', lesson.mdFile);
   void loadLessonMarkdown(lesson.mdFile)
     .then((md) => {
       if (state.selectedLessonId !== lessonIdAtRequest) return;
-      console.log('Markdown loaded, length:', md.length);
       const rendered = markdownToTeachingHtml(md);
-      console.log('HTML rendered, length:', rendered.length);
-      console.log('First 200 chars:', rendered.substring(0, 200));
       if (!rendered) return;
       teachingNotes.innerHTML = rendered;
-      console.log('HTML inserted, calling maybeTypesetMath');
       maybeTypesetMath(teachingNotes);
     })
-    .catch((err) => { console.error('Failed to load markdown:', err); });
+    .catch(() => {});
 }
 
 function renderLessonList() {

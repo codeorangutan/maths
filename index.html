@@ -14,21 +14,7 @@
       svg: { fontCache: 'global' }
     };
   </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" onerror="console.error('MathJax failed to load from CDN')"></script>
-  <script>
-    // Debug: Check MathJax status after page load
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        if (!window.MathJax) {
-          console.error('CRITICAL: MathJax not loaded after 3 seconds');
-        } else if (!window.MathJax.typesetPromise) {
-          console.error('CRITICAL: MathJax loaded but typesetPromise not available');
-        } else {
-          console.log('MathJax loaded successfully');
-        }
-      }, 3000);
-    });
-  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <header class="topbar">
