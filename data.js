@@ -584,6 +584,24 @@ window.ELITE_MATHS_DATA = {
       answerKey: {}
     },
     {
+      id: "L16",
+      title: "Lesson 16 - Function Analysis: Domains, Piecewise Logic, and Inverse Conditions",
+      meta: "Year 10 · Term 2 · Week 2",
+      mdFile: "Lesson_16.md",
+      objectives: [
+        "Master rigorous domain and range analysis",
+        "Develop systematic piecewise function evaluation",
+        "Establish precise inverse function procedures with verification"
+      ],
+      teachingPoints: [
+        "Domain and range identification",
+        "Piecewise function handling",
+        "Inverse function verification protocols"
+      ],
+      quiz: [],
+      answerKey: {}
+    },
+    {
       id: "L17",
       title: "Lesson 17 - Circle Geometry in the Coordinate Plane",
       meta: "Year 10 · Term 2 · Week 3",
