@@ -829,14 +829,17 @@ function ensureExtendedLessonsInData() {
 ensureExtendedLessonsInData();
 
 function ensureChallengeSetsInData() {
-  const lessons = window.ELITE_MATHS_DATA.lessons || [];
-  lessons.forEach((lesson, index) => {
-    const hasChallengeQuiz = Array.isArray(lesson.challengeQuiz) && lesson.challengeQuiz.length === 5;
-    const hasChallengeKey = lesson.challengeAnswerKey && typeof lesson.challengeAnswerKey === "object";
-    if (hasChallengeQuiz && hasChallengeKey) return;
-    const generated = buildChallengeQuizForLesson(lesson, index);
-    lesson.challengeQuiz = generated.challengeQuiz;
-    lesson.challengeAnswerKey = generated.challengeAnswerKey;
+  const allDatasets = [window.ELITE_MATHS_DATA, window.ELITE_MATHS_DATA_Y7].filter(Boolean);
+  allDatasets.forEach((dataset) => {
+    const lessons = dataset.lessons || [];
+    lessons.forEach((lesson, index) => {
+      const hasChallengeQuiz = Array.isArray(lesson.challengeQuiz) && lesson.challengeQuiz.length === 5;
+      const hasChallengeKey = lesson.challengeAnswerKey && typeof lesson.challengeAnswerKey === "object";
+      if (hasChallengeQuiz && hasChallengeKey) return;
+      const generated = buildChallengeQuizForLesson(lesson, index);
+      lesson.challengeQuiz = generated.challengeQuiz;
+      lesson.challengeAnswerKey = generated.challengeAnswerKey;
+    });
   });
 }
 
