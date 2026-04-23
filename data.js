@@ -106,6 +106,51 @@ window.ELITE_MATHS_DATA_Y7 = {
         Y7L01Q8: { answer: -16, tolerance: 0.0001 },
         Y7L01Q9: { answer: -33, tolerance: 0.0001 },
         Y7L01Q10: { answer: "-8" }
+      },
+      challengeQuiz: [
+        {
+          id: "Y7L01C1",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Evaluate: \\((-2)^4 - (-3)^3 + (-1)^{10}\\)",
+          marks: 3
+        },
+        {
+          id: "Y7L01C2",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Evaluate: \\(\\dfrac{(-3)^2 + (-5)}{2^3 - (-2)}\\)",
+          marks: 3
+        },
+        {
+          id: "Y7L01C3",
+          strand: "RP",
+          type: "mcq",
+          prompt: "The product of two integers is \\(-36\\) and their sum is \\(-5\\). Which pair is correct?",
+          options: ["4 and -9", "-4 and 9", "6 and -6", "-3 and 12"],
+          marks: 3
+        },
+        {
+          id: "Y7L01C4",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Place brackets to make this true: \\(3 + 4 \\times 2 - 1 = 13\\). Then evaluate: \\(3 + 4 \\times (2 - 1)\\).",
+          marks: 3
+        },
+        {
+          id: "Y7L01C5",
+          strand: "RP",
+          type: "numeric",
+          prompt: "The temperature drops \\(3°C\\) per hour starting from \\(5°C\\). After how many hours does it first reach below \\(-10°C\\)?",
+          marks: 3
+        }
+      ],
+      challengeAnswerKey: {
+        Y7L01C1: { answer: 44, tolerance: 0.0001 },
+        Y7L01C2: { answer: 0.4, tolerance: 0.001 },
+        Y7L01C3: { answer: "4 and -9" },
+        Y7L01C4: { answer: 7, tolerance: 0.0001 },
+        Y7L01C5: { answer: 6, tolerance: 0.0001 }
       }
     },
     {
@@ -207,6 +252,51 @@ window.ELITE_MATHS_DATA_Y7 = {
         Y7L02Q8: { answer: 25, tolerance: 0.0001 },
         Y7L02Q9: { answer: 400, tolerance: 0.0001 },
         Y7L02Q10: { answer: "6.25% less" }
+      },
+      challengeQuiz: [
+        {
+          id: "Y7L02C1",
+          strand: "NA",
+          type: "text",
+          prompt: "Evaluate: \\(\\dfrac{3}{4} \\times \\left(1\\dfrac{2}{3} - \\dfrac{5}{6}\\right) \\div \\dfrac{1}{2}\\). Give your answer as a fraction in simplest form.",
+          marks: 4
+        },
+        {
+          id: "Y7L02C2",
+          strand: "NA",
+          type: "numeric",
+          prompt: "A tank is \\(\\dfrac{3}{8}\\) full. After adding 45 L it is \\(\\dfrac{3}{4}\\) full. What is the total capacity of the tank in litres?",
+          marks: 3
+        },
+        {
+          id: "Y7L02C3",
+          strand: "RP",
+          type: "mcq",
+          prompt: "A price is increased by 20%, then the new price is decreased by 20%. The final price compared to the original is:",
+          options: ["The same", "4% less", "4% more", "40% less"],
+          marks: 3
+        },
+        {
+          id: "Y7L02C4",
+          strand: "NA",
+          type: "numeric",
+          prompt: "If \\(\\dfrac{2}{3}\\) of a number minus \\(\\dfrac{1}{4}\\) of the same number equals 35, find the number.",
+          marks: 3
+        },
+        {
+          id: "Y7L02C5",
+          strand: "NA",
+          type: "numeric",
+          prompt: "A student scored 72% on a test. She got 4 more questions correct and her score became 80%. How many questions were in the test?",
+          marks: 4
+        }
+      ],
+      challengeAnswerKey: {
+        Y7L02C1: { accepted: ["5/4", "1 1/4", "1.25"] },
+        Y7L02C2: { answer: 120, tolerance: 0.0001 },
+        Y7L02C3: { answer: "4% less" },
+        Y7L02C4: { answer: 84, tolerance: 0.0001 },
+        Y7L02C5: { answer: 50, tolerance: 0.0001 }
       }
     },
     {
@@ -308,6 +398,51 @@ window.ELITE_MATHS_DATA_Y7 = {
         Y7L03Q8: { answer: 6.75, tolerance: 0.01 },
         Y7L03Q9: { answer: "48 km/h" },
         Y7L03Q10: { answer: 1, tolerance: 0.0001 }
+      },
+      challengeQuiz: [
+        {
+          id: "Y7L03C1",
+          strand: "NA",
+          type: "numeric",
+          prompt: "The ratio of boys to girls in a class is \\(3 : 4\\). If 5 more boys join, the ratio becomes \\(5 : 4\\). How many girls are in the class?",
+          marks: 3
+        },
+        {
+          id: "Y7L03C2",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Two cyclists start at opposite ends of a 120 km route at the same time. Cyclist A rides at 24 km/h and Cyclist B at 16 km/h. How many km from Cyclist A's start do they meet?",
+          marks: 4
+        },
+        {
+          id: "Y7L03C3",
+          strand: "RP",
+          type: "mcq",
+          prompt: "A train travels from A to B at 90 km/h and returns at 60 km/h. What is the average speed for the whole trip?",
+          options: ["72 km/h", "75 km/h", "78 km/h", "80 km/h"],
+          marks: 3
+        },
+        {
+          id: "Y7L03C4",
+          strand: "NA",
+          type: "numeric",
+          prompt: "\\(P\\) is directly proportional to \\(Q^2\\). When \\(Q = 3\\), \\(P = 36\\). Find \\(P\\) when \\(Q = 5\\).",
+          marks: 3
+        },
+        {
+          id: "Y7L03C5",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Brass is made of copper and zinc in the ratio \\(7 : 3\\). A piece of brass contains 630 g of copper. What is the total mass of the brass in grams?",
+          marks: 3
+        }
+      ],
+      challengeAnswerKey: {
+        Y7L03C1: { answer: 20, tolerance: 0.0001 },
+        Y7L03C2: { answer: 72, tolerance: 0.0001 },
+        Y7L03C3: { answer: "72 km/h" },
+        Y7L03C4: { answer: 100, tolerance: 0.0001 },
+        Y7L03C5: { answer: 900, tolerance: 0.0001 }
       }
     }
   ],
