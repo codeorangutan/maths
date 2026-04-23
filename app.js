@@ -10,7 +10,7 @@ function getActiveData() {
 const state = {
   studentName: "",
   activeStream: "Y10",
-  selectedLessonId: getActiveData().lessons[0].id,
+  selectedLessonId: window.ELITE_MATHS_DATA.lessons[0].id,
   activeLessonTab: "teaching",
   attempts: [],
   profiles: {},
