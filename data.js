@@ -1,3 +1,328 @@
+window.ELITE_MATHS_DATA_Y7 = {
+  strands: {
+    NA: "Number & Algebra",
+    MG: "Measurement & Geometry",
+    PS: "Probability & Statistics",
+    RP: "Reasoning & Proof",
+    TX: "Timed Execution"
+  },
+  lessons: [
+    {
+      id: "Y7L01",
+      title: "Lesson 01 - Integers, Number Lines, and Order of Operations",
+      meta: "Year 7 · Term 1 · Week 1",
+      mdFile: "Lesson_Y7_01.md",
+      objectives: [
+        "Fluently add, subtract, multiply and divide integers",
+        "Apply BODMAS/BIDMAS to multi-step expressions",
+        "Interpret signed numbers in real-world contexts"
+      ],
+      teachingPoints: [
+        "Subtracting a negative is the same as adding",
+        "Same signs multiply to positive, different signs to negative",
+        "Powers and brackets are evaluated before multiplication and division"
+      ],
+      quiz: [
+        {
+          id: "Y7L01Q1",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Calculate: \\((-8) + 3\\)",
+          marks: 1
+        },
+        {
+          id: "Y7L01Q2",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Calculate: \\(7 - (-4)\\)",
+          marks: 1
+        },
+        {
+          id: "Y7L01Q3",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Calculate: \\((-6) \\times (-3)\\)",
+          marks: 1
+        },
+        {
+          id: "Y7L01Q4",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Calculate: \\((-20) \\div (-5)\\)",
+          marks: 1
+        },
+        {
+          id: "Y7L01Q5",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Evaluate: \\(3 + 6 \\times 2 - 1\\)",
+          marks: 2
+        },
+        {
+          id: "Y7L01Q6",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Evaluate: \\(24 \\div (8 - 2) + 3^2\\)",
+          marks: 2
+        },
+        {
+          id: "Y7L01Q7",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Evaluate: \\((-3)^2 - 4 \\times 2\\)",
+          marks: 2
+        },
+        {
+          id: "Y7L01Q8",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Evaluate: \\(5 \\times (2 - 7) + (-3)^2\\)",
+          marks: 2
+        },
+        {
+          id: "Y7L01Q9",
+          strand: "NA",
+          type: "numeric",
+          prompt: "A submarine is at \\(-40\\) m depth. It rises 15 m, then descends 8 m. What is its final depth in metres?",
+          marks: 2
+        },
+        {
+          id: "Y7L01Q10",
+          strand: "RP",
+          type: "mcq",
+          prompt: "Which correctly evaluates \\((-2)^3\\)?",
+          options: ["8", "-8", "6", "-6"],
+          marks: 1
+        }
+      ],
+      answerKey: {
+        Y7L01Q1: { answer: -5, tolerance: 0.0001 },
+        Y7L01Q2: { answer: 11, tolerance: 0.0001 },
+        Y7L01Q3: { answer: 18, tolerance: 0.0001 },
+        Y7L01Q4: { answer: 4, tolerance: 0.0001 },
+        Y7L01Q5: { answer: 14, tolerance: 0.0001 },
+        Y7L01Q6: { answer: 13, tolerance: 0.0001 },
+        Y7L01Q7: { answer: 1, tolerance: 0.0001 },
+        Y7L01Q8: { answer: -16, tolerance: 0.0001 },
+        Y7L01Q9: { answer: -33, tolerance: 0.0001 },
+        Y7L01Q10: { answer: "-8" }
+      }
+    },
+    {
+      id: "Y7L02",
+      title: "Lesson 02 - Fractions, Decimals, and Percentages",
+      meta: "Year 7 · Term 1 · Week 1",
+      mdFile: "Lesson_Y7_02.md",
+      objectives: [
+        "Perform all four operations with fractions and mixed numbers",
+        "Convert fluently between fractions, decimals, and percentages",
+        "Solve percentage increase, decrease, and reverse percentage problems"
+      ],
+      teachingPoints: [
+        "Always find the LCM before adding or subtracting unlike fractions",
+        "Dividing by a fraction means multiplying by its reciprocal",
+        "Reverse percentage: divide by the multiplier, not subtract the percentage"
+      ],
+      quiz: [
+        {
+          id: "Y7L02Q1",
+          strand: "NA",
+          type: "text",
+          prompt: "Simplify: \\(\\dfrac{48}{72}\\)",
+          marks: 1
+        },
+        {
+          id: "Y7L02Q2",
+          strand: "NA",
+          type: "text",
+          prompt: "Calculate: \\(\\dfrac{2}{5} + \\dfrac{3}{4}\\). Give your answer as a mixed number.",
+          marks: 2
+        },
+        {
+          id: "Y7L02Q3",
+          strand: "NA",
+          type: "text",
+          prompt: "Calculate: \\(3\\dfrac{1}{2} - 1\\dfrac{2}{3}\\). Give your answer as a mixed number.",
+          marks: 2
+        },
+        {
+          id: "Y7L02Q4",
+          strand: "NA",
+          type: "text",
+          prompt: "Calculate: \\(\\dfrac{4}{5} \\times \\dfrac{15}{8}\\). Give your answer in simplest form.",
+          marks: 2
+        },
+        {
+          id: "Y7L02Q5",
+          strand: "NA",
+          type: "text",
+          prompt: "Calculate: \\(2\\dfrac{1}{4} \\div 1\\dfrac{1}{2}\\). Give your answer in simplest form.",
+          marks: 2
+        },
+        {
+          id: "Y7L02Q6",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Convert \\(\\dfrac{7}{8}\\) to a percentage.",
+          marks: 1
+        },
+        {
+          id: "Y7L02Q7",
+          strand: "NA",
+          type: "numeric",
+          prompt: "Find 24% of 350.",
+          marks: 2
+        },
+        {
+          id: "Y7L02Q8",
+          strand: "NA",
+          type: "numeric",
+          prompt: "A price increases from \\$60 to \\$75. Calculate the percentage increase.",
+          marks: 2
+        },
+        {
+          id: "Y7L02Q9",
+          strand: "NA",
+          type: "numeric",
+          prompt: "After a 15% price reduction, a TV costs \\$340. What was the original price?",
+          marks: 3
+        },
+        {
+          id: "Y7L02Q10",
+          strand: "RP",
+          type: "mcq",
+          prompt: "A store increases prices by 25%, then offers a 25% discount on the new price. The final price compared to the original is:",
+          options: ["The same", "6.25% less", "6.25% more", "50% less"],
+          marks: 2
+        }
+      ],
+      answerKey: {
+        Y7L02Q1: { accepted: ["2/3"] },
+        Y7L02Q2: { accepted: ["1 3/20", "23/20"] },
+        Y7L02Q3: { accepted: ["1 5/6", "11/6"] },
+        Y7L02Q4: { accepted: ["3/2", "1 1/2", "1.5"] },
+        Y7L02Q5: { accepted: ["3/2", "1 1/2", "1.5"] },
+        Y7L02Q6: { answer: 87.5, tolerance: 0.01 },
+        Y7L02Q7: { answer: 84, tolerance: 0.0001 },
+        Y7L02Q8: { answer: 25, tolerance: 0.0001 },
+        Y7L02Q9: { answer: 400, tolerance: 0.0001 },
+        Y7L02Q10: { answer: "6.25% less" }
+      }
+    },
+    {
+      id: "Y7L03",
+      title: "Lesson 03 - Ratios, Rates, and Proportional Reasoning",
+      meta: "Year 7 · Term 1 · Week 2",
+      mdFile: "Lesson_Y7_03.md",
+      objectives: [
+        "Simplify ratios and divide quantities in a given ratio",
+        "Calculate rates and use speed-distance-time relationships",
+        "Solve direct and inverse proportion problems"
+      ],
+      teachingPoints: [
+        "Convert to same units before forming a ratio",
+        "Average speed = total distance ÷ total time (not average of speeds)",
+        "Inverse proportion: product of the two quantities is constant"
+      ],
+      quiz: [
+        {
+          id: "Y7L03Q1",
+          strand: "NA",
+          type: "text",
+          prompt: "Simplify the ratio \\(45 : 75\\).",
+          marks: 1
+        },
+        {
+          id: "Y7L03Q2",
+          strand: "NA",
+          type: "text",
+          prompt: "Express 40 minutes to 3 hours as a ratio in simplest form.",
+          marks: 2
+        },
+        {
+          id: "Y7L03Q3",
+          strand: "NA",
+          type: "text",
+          prompt: "Divide \\$560 in the ratio \\(3 : 5\\). Give both amounts.",
+          marks: 2
+        },
+        {
+          id: "Y7L03Q4",
+          strand: "NA",
+          type: "numeric",
+          prompt: "A map has scale \\(1 : 25\\,000\\). A road is 7.5 cm on the map. What is its actual length in km?",
+          marks: 2
+        },
+        {
+          id: "Y7L03Q5",
+          strand: "NA",
+          type: "numeric",
+          prompt: "A car uses 45 L of fuel to travel 630 km. Find its fuel consumption in L/100 km.",
+          marks: 2
+        },
+        {
+          id: "Y7L03Q6",
+          strand: "NA",
+          type: "numeric",
+          prompt: "\\(y\\) is directly proportional to \\(x\\). When \\(x = 5\\), \\(y = 12\\). Find \\(y\\) when \\(x = 20\\).",
+          marks: 2
+        },
+        {
+          id: "Y7L03Q7",
+          strand: "NA",
+          type: "numeric",
+          prompt: "4 taps fill a tank in 15 hours. How long (in hours) would 6 taps take?",
+          marks: 2
+        },
+        {
+          id: "Y7L03Q8",
+          strand: "NA",
+          type: "numeric",
+          prompt: "A hiker walks 18 km in 4.5 hours. At the same rate, how many hours to walk 27 km?",
+          marks: 2
+        },
+        {
+          id: "Y7L03Q9",
+          strand: "RP",
+          type: "mcq",
+          prompt: "A car travels 60 km at 60 km/h, then 60 km at 40 km/h. What is the average speed for the whole journey?",
+          options: ["48 km/h", "50 km/h", "52 km/h", "54 km/h"],
+          marks: 3
+        },
+        {
+          id: "Y7L03Q10",
+          strand: "NA",
+          type: "numeric",
+          prompt: "\\(y\\) is inversely proportional to \\(x^2\\). When \\(x = 2\\), \\(y = 9\\). Find \\(y\\) when \\(x = 6\\).",
+          marks: 3
+        }
+      ],
+      answerKey: {
+        Y7L03Q1: { accepted: ["3:5", "3 : 5"] },
+        Y7L03Q2: { accepted: ["2:9", "2 : 9"] },
+        Y7L03Q3: { accepted: ["210 and 350", "$210 and $350"] },
+        Y7L03Q4: { answer: 1.875, tolerance: 0.001 },
+        Y7L03Q5: { answer: 7.142857, tolerance: 0.01 },
+        Y7L03Q6: { answer: 48, tolerance: 0.0001 },
+        Y7L03Q7: { answer: 10, tolerance: 0.0001 },
+        Y7L03Q8: { answer: 6.75, tolerance: 0.01 },
+        Y7L03Q9: { answer: "48 km/h" },
+        Y7L03Q10: { answer: 1, tolerance: 0.0001 }
+      }
+    }
+  ],
+  adaptiveBank: {
+    NA: [
+      { id: "AD_Y7_NA_1", type: "numeric", prompt: "Calculate \\((-3) \\times (-7)\\)", answer: 21, tolerance: 0.0001 },
+      { id: "AD_Y7_NA_2", type: "numeric", prompt: "Evaluate \\(2 + 3^2 \\times 4\\)", answer: 38, tolerance: 0.0001 },
+      { id: "AD_Y7_NA_3", type: "numeric", prompt: "Find 30% of 240", answer: 72, tolerance: 0.0001 }
+    ],
+    RP: [
+      { id: "AD_Y7_RP_1", type: "mcq", prompt: "Is \\((-a)^2\\) always positive?", options: ["Yes, always", "Only if a > 0", "Only if a is even", "No"], answer: "Yes, always" }
+    ]
+  }
+};
+
 window.ELITE_MATHS_DATA = {
   strands: {
     NA: "Number & Algebra",

@@ -3,9 +3,14 @@ const DB_NAME = "eliteMathsCoachDb";
 const STORE_NAME = "appState";
 const RECORD_ID = "primary";
 
+function getActiveData() {
+  return state.activeStream === 'Y7' ? window.ELITE_MATHS_DATA_Y7 : window.ELITE_MATHS_DATA;
+}
+
 const state = {
   studentName: "",
-  selectedLessonId: window.ELITE_MATHS_DATA.lessons[0].id,
+  activeStream: "Y10",
+  selectedLessonId: getActiveData().lessons[0].id,
   activeLessonTab: "teaching",
   attempts: [],
   profiles: {},
@@ -796,7 +801,15 @@ function ensureExtendedLessonsInData() {
   const existingIds = new Set(lessons.map((l) => l.id));
 
   EXTENDED_LESSON_DEFS.forEach((def) => {
-    if (existingIds.has(def.id)) return;
+    const existing = lessons.find((l) => l.id === def.id);
+    if (existing) {
+      if (!existing.quiz || existing.quiz.length === 0) {
+        const generated = buildGeneratedLessonQuiz(def.id);
+        existing.quiz = generated.quiz;
+        existing.answerKey = generated.answerKey;
+      }
+      return;
+    }
     const generated = buildGeneratedLessonQuiz(def.id);
     lessons.push({
       id: def.id,
@@ -839,7 +852,7 @@ function ensureStudentProfile(name) {
   if (!state.profiles[key]) {
     state.profiles[key] = {
       displayName: String(name || "").trim(),
-      selectedLessonId: window.ELITE_MATHS_DATA.lessons[0].id,
+      selectedLessonId: getActiveData().lessons[0].id,
       attempts: [],
       lessonProgress: {}
     };
@@ -849,7 +862,7 @@ function ensureStudentProfile(name) {
   }
   if (!state.profiles[key].lessonProgress) state.profiles[key].lessonProgress = {};
   if (!Array.isArray(state.profiles[key].attempts)) state.profiles[key].attempts = [];
-  if (!state.profiles[key].selectedLessonId) state.profiles[key].selectedLessonId = window.ELITE_MATHS_DATA.lessons[0].id;
+  if (!state.profiles[key].selectedLessonId) state.profiles[key].selectedLessonId = getActiveData().lessons[0].id;
   return state.profiles[key];
 }
 
@@ -860,7 +873,7 @@ function loadStudentProfile(name) {
     state.attempts = [];
     state.lessonProgress = {};
     state.activeLessonTab = "teaching";
-    state.selectedLessonId = window.ELITE_MATHS_DATA.lessons[0].id;
+    state.selectedLessonId = getActiveData().lessons[0].id;
     return;
   }
 
@@ -868,7 +881,7 @@ function loadStudentProfile(name) {
   state.attempts = profile.attempts;
   state.lessonProgress = profile.lessonProgress;
   state.activeLessonTab = "teaching";
-  state.selectedLessonId = profile.selectedLessonId || window.ELITE_MATHS_DATA.lessons[0].id;
+  state.selectedLessonId = profile.selectedLessonId || getActiveData().lessons[0].id;
 }
 
 function getSortedStudentProfiles() {
@@ -932,7 +945,7 @@ function readFromLocalStorageFallback() {
       const key = normalizeStudentKey(state.studentName);
       state.profiles[key] = {
         displayName: state.studentName,
-        selectedLessonId: window.ELITE_MATHS_DATA.lessons[0].id,
+        selectedLessonId: getActiveData().lessons[0].id,
         attempts: Array.isArray(parsed.attempts) ? parsed.attempts : [],
         lessonProgress: parsed.lessonProgress && typeof parsed.lessonProgress === "object" ? parsed.lessonProgress : {}
       };
@@ -964,7 +977,7 @@ async function loadState() {
         const key = normalizeStudentKey(state.studentName);
         state.profiles[key] = {
           displayName: state.studentName,
-          selectedLessonId: window.ELITE_MATHS_DATA.lessons[0].id,
+          selectedLessonId: getActiveData().lessons[0].id,
           attempts: Array.isArray(data.attempts) ? data.attempts : [],
           lessonProgress: data.lessonProgress && typeof data.lessonProgress === "object" ? data.lessonProgress : {}
         };
@@ -1035,7 +1048,7 @@ function persistCurrentLessonProgress() {
 }
 
 function getLessonById(id) {
-  return window.ELITE_MATHS_DATA.lessons.find((l) => l.id === id);
+  return getActiveData().lessons.find((l) => l.id === id);
 }
 
 function getQuestionById(lesson, questionId) {
@@ -1087,78 +1100,78 @@ function normalizeText(s) {
 }
 
 const DISPLAY_MATH_OVERRIDES = {
-  "Simplify: (3^-2 + 2^-1) / (5^-1)": String.raw`Simplify: \\(\dfrac{3^{-2}+2^{-1}}{5^{-1}}\)`,
-  "Which statement is true for all integers n?": String.raw`Which statement is true for all integers \\(n\)?`,
-  "n^2+n is always odd": String.raw`\\(n^2+n\) is always odd`,
-  "n^2+n is always even": String.raw`\\(n^2+n\) is always even`,
-  "n^2+n is always prime": String.raw`\\(n^2+n\) is always prime`,
-  "n^2+n is never divisible by 2": String.raw`\\(n^2+n\) is never divisible by \\(2\)`,
-  "Simplify: (2^-3 + 3^-1) / (6^-1)": String.raw`Simplify: \\(\dfrac{2^{-3}+3^{-1}}{6^{-1}}\)`,
-  "Solve |x-2| < 5": String.raw`Solve \\(\\lvert x-2\\rvert < 5\)`,
-  "-3 < x < 7": String.raw`\\(-3 < x < 7\)`,
-  "x < -3 or x > 7": String.raw`\\(x < -3\) or \\(x > 7\)`,
-  "-5 < x < 5": String.raw`\\(-5 < x < 5\)`,
-  "x > 2": String.raw`\\(x > 2\)`,
-  "If x + 1/x = 4, find x^2 + 1/x^2": String.raw`If \\(x+\dfrac{1}{x}=4\), find \\(x^2+\dfrac{1}{x^2}\)`,
-  "Best reason n(n+1) is always even:": String.raw`Best reason \\(n(n+1)\) is always even:`,
-  "Find the gradient between (-2,3) and (4,-9)": String.raw`Find the gradient between \\((-2,3)\) and \\((4,-9)\)`,
-  "Evaluate: (2x+3)^2 - (2x-3)^2 when x=2": String.raw`Evaluate: \\((2x+3)^2-(2x-3)^2\) when \\(x=2\)`,
-  "Simplify (x^2-1)/(x-1) - (x^2-4)/(x-2), x!=1,2": String.raw`Simplify \\(\dfrac{x^2-1}{x-1}-\dfrac{x^2-4}{x-2}\), \\(x\\ne1,2\)`,
-  "n^3-n is divisible by 6 because:": String.raw`\\(n^3-n\) is divisible by \\(6\) because:`,
-  "it is product of 3 consecutive integers": String.raw`it is product of \\(3\) consecutive integers`,
-  "Solve |3x+1| >= 7": String.raw`Solve \\(\\lvert3x+1\\rvert \\ge 7\)`,
-  "x >= 2 or x <= -8/3": String.raw`\\(x\\ge2\) or \\(x\\le-\dfrac{8}{3}\)`,
-  "-2 <= x <= 8/3": String.raw`\\(-2\\le x\\le \dfrac{8}{3}\)`,
-  "x > 0 only": String.raw`\\(x>0\) only`,
-  "For x≠4, simplify (x^2-16)/(x-4), then evaluate at x=6": String.raw`For \\(x\\ne4\), simplify \\(\dfrac{x^2-16}{x-4}\), then evaluate at \\(x=6\)`,
-  "Solve (x-3)/(x+1) < 0": String.raw`Solve \\(\dfrac{x-3}{x+1}<0\)`,
-  "-1 < x < 3": String.raw`\\(-1<x<3\)`,
-  "x < -1 or x > 3": String.raw`\\(x<-1\) or \\(x>3\)`,
-  "x > -1": String.raw`\\(x>-1\)`,
-  "x < 3": String.raw`\\(x<3\)`,
-  "If x - 1/x = 2, find x^2 + 1/x^2": String.raw`If \\(x-\dfrac{1}{x}=2\), find \\(x^2+\dfrac{1}{x^2}\)`,
-  "n^3 - n can be written as:": String.raw`\\(n^3-n\) can be written as:`,
-  "n(n-1)(n+1)": String.raw`\\(n(n-1)(n+1)\)`,
-  "(n-1)^3": String.raw`\\((n-1)^3\)`,
-  "n(n+1)": String.raw`\\(n(n+1)\)`,
-  "n^2(n-1)": String.raw`\\(n^2(n-1)\)`,
-  "Solve 7x - 5 = 2x + 20": String.raw`Solve \\(7x-5=2x+20\)`,
-  "Vertex of y = x^2 - 6x + 5 is:": String.raw`Vertex of \\(y=x^2-6x+5\) is:`,
-  "(3,-4)": String.raw`\\((3,-4)\)`,
-  "(-3,4)": String.raw`\\((-3,4)\)`,
-  "(6,5)": String.raw`\\((6,5)\)`,
-  "(3,4)": String.raw`\\((3,4)\)`,
-  "For x^2+(k-1)x+9=0 to have real roots, k must satisfy:": String.raw`For \\(x^2+(k-1)x+9=0\) to have real roots, \\(k\) must satisfy:`,
-  "k > 0": String.raw`\\(k>0\)`,
-  "k <= -5 or k >= 7": String.raw`\\(k\\le-5\) or \\(k\\ge7\)`,
-  "-5 < k < 7": String.raw`\\(-5<k<7\)`,
-  "k = 1 only": String.raw`\\(k=1\) only`,
-  "Minimum value of A(x)=x^2-10x+41": String.raw`Minimum value of \\(A(x)=x^2-10x+41\)`,
-  "Find the axis of symmetry of y = 3x^2 - 12x + 1": String.raw`Find the axis of symmetry of \\(y=3x^2-12x+1\)`,
-  "Discriminant of x^2 + 6x + 9 is:": String.raw`Discriminant of \\(x^2+6x+9\) is:`,
-  "If roots of x^2 - 5x + 6 = 0 are r1 and r2, find r1+r2": String.raw`If roots of \\(x^2-5x+6=0\) are \\(r_1\) and \\(r_2\), find \\(r_1+r_2\)`,
-  "Minimum value of y = 2x^2 + 8x + 3": String.raw`Minimum value of \\(y=2x^2+8x+3\)`,
-  "For line y = mx + 1 to be tangent to y = x^2 - 2x + 5, m can be:": String.raw`For line \\(y=mx+1\) to be tangent to \\(y=x^2-2x+5\), \\(m\) can be:`,
-  "Evaluate: (3^2 - 5) * 2": String.raw`Evaluate: \\((3^2-5)\\times2\)`,
-  "Factorise x^2 - 9": String.raw`Factorise \\(x^2-9\)`,
-  "(x-3)(x+3)": String.raw`\\((x-3)(x+3)\)`,
-  "(x-9)(x+1)": String.raw`\\((x-9)(x+1)\)`,
-  "(x-3)^2": String.raw`\\((x-3)^2\)`,
-  "Solve for x: 5x - 12 = 18": String.raw`Solve for \\(x\): \\(5x-12=18\)`,
-  "Vertex of y = x^2 - 4x + 1": String.raw`Vertex of \\(y=x^2-4x+1\)`,
-  "(2,-3)": String.raw`\\((2,-3)\)`,
-  "(-2,3)": String.raw`\\((-2,3)\)`,
-  "(4,1)": String.raw`\\((4,1)\)`,
-  "(2,3)": String.raw`\\((2,3)\)`,
-  "If f(x)=x^2, find f(5)-f(3)": String.raw`If \\(f(x)=x^2\), find \\(f(5)-f(3)\)`,
-  "For x^2 + 4x + 5 = 0, discriminant is:": String.raw`For \\(x^2+4x+5=0\), discriminant is:`,
-  "Bag has 3 red, 2 blue. P(red first) is:": String.raw`Bag has \\(3\) red, \\(2\) blue. \\(P(\text{red first})\) is:`,
-  "3/5": String.raw`\\(\dfrac{3}{5}\)`,
-  "2/5": String.raw`\\(\dfrac{2}{5}\)`,
-  "1/2": String.raw`\\(\dfrac{1}{2}\)`,
-  "5/3": String.raw`\\(\dfrac{5}{3}\)`,
-  "n(n+1) is always even because:": String.raw`\\(n(n+1)\) is always even because:`,
-  "If 6 mins/question and 10 questions, total mins": String.raw`If \\(6\) mins/question and \\(10\) questions, total mins`
+  "Simplify: (3^-2 + 2^-1) / (5^-1)": String.raw`Simplify: \(\dfrac{3^{-2}+2^{-1}}{5^{-1}}\)`,
+  "Which statement is true for all integers n?": String.raw`Which statement is true for all integers \(n\)?`,
+  "n^2+n is always odd": String.raw`\(n^2+n\) is always odd`,
+  "n^2+n is always even": String.raw`\(n^2+n\) is always even`,
+  "n^2+n is always prime": String.raw`\(n^2+n\) is always prime`,
+  "n^2+n is never divisible by 2": String.raw`\(n^2+n\) is never divisible by \(2\)`,
+  "Simplify: (2^-3 + 3^-1) / (6^-1)": String.raw`Simplify: \(\dfrac{2^{-3}+3^{-1}}{6^{-1}}\)`,
+  "Solve |x-2| < 5": String.raw`Solve \(\lvert x-2\rvert < 5\)`,
+  "-3 < x < 7": String.raw`\(-3 < x < 7\)`,
+  "x < -3 or x > 7": String.raw`\(x < -3\) or \(x > 7\)`,
+  "-5 < x < 5": String.raw`\(-5 < x < 5\)`,
+  "x > 2": String.raw`\(x > 2\)`,
+  "If x + 1/x = 4, find x^2 + 1/x^2": String.raw`If \(x+\dfrac{1}{x}=4\), find \(x^2+\dfrac{1}{x^2}\)`,
+  "Best reason n(n+1) is always even:": String.raw`Best reason \(n(n+1)\) is always even:`,
+  "Find the gradient between (-2,3) and (4,-9)": String.raw`Find the gradient between \((-2,3)\) and \((4,-9)\)`,
+  "Evaluate: (2x+3)^2 - (2x-3)^2 when x=2": String.raw`Evaluate: \((2x+3)^2-(2x-3)^2\) when \(x=2\)`,
+  "Simplify (x^2-1)/(x-1) - (x^2-4)/(x-2), x!=1,2": String.raw`Simplify \(\dfrac{x^2-1}{x-1}-\dfrac{x^2-4}{x-2}\), \(x\ne1,2\)`,
+  "n^3-n is divisible by 6 because:": String.raw`\(n^3-n\) is divisible by \(6\) because:`,
+  "it is product of 3 consecutive integers": String.raw`it is product of \(3\) consecutive integers`,
+  "Solve |3x+1| >= 7": String.raw`Solve \(\lvert3x+1\rvert \ge 7\)`,
+  "x >= 2 or x <= -8/3": String.raw`\(x\ge2\) or \(x\le-\dfrac{8}{3}\)`,
+  "-2 <= x <= 8/3": String.raw`\(-2\le x\le \dfrac{8}{3}\)`,
+  "x > 0 only": String.raw`\(x>0\) only`,
+  "For x≠4, simplify (x^2-16)/(x-4), then evaluate at x=6": String.raw`For \(x\ne4\), simplify \(\dfrac{x^2-16}{x-4}\), then evaluate at \(x=6\)`,
+  "Solve (x-3)/(x+1) < 0": String.raw`Solve \(\dfrac{x-3}{x+1}<0\)`,
+  "-1 < x < 3": String.raw`\(-1<x<3\)`,
+  "x < -1 or x > 3": String.raw`\(x<-1\) or \(x>3\)`,
+  "x > -1": String.raw`\(x>-1\)`,
+  "x < 3": String.raw`\(x<3\)`,
+  "If x - 1/x = 2, find x^2 + 1/x^2": String.raw`If \(x-\dfrac{1}{x}=2\), find \(x^2+\dfrac{1}{x^2}\)`,
+  "n^3 - n can be written as:": String.raw`\(n^3-n\) can be written as:`,
+  "n(n-1)(n+1)": String.raw`\(n(n-1)(n+1)\)`,
+  "(n-1)^3": String.raw`\((n-1)^3\)`,
+  "n(n+1)": String.raw`\(n(n+1)\)`,
+  "n^2(n-1)": String.raw`\(n^2(n-1)\)`,
+  "Solve 7x - 5 = 2x + 20": String.raw`Solve \(7x-5=2x+20\)`,
+  "Vertex of y = x^2 - 6x + 5 is:": String.raw`Vertex of \(y=x^2-6x+5\) is:`,
+  "(3,-4)": String.raw`\((3,-4)\)`,
+  "(-3,4)": String.raw`\((-3,4)\)`,
+  "(6,5)": String.raw`\((6,5)\)`,
+  "(3,4)": String.raw`\((3,4)\)`,
+  "For x^2+(k-1)x+9=0 to have real roots, k must satisfy:": String.raw`For \(x^2+(k-1)x+9=0\) to have real roots, \(k\) must satisfy:`,
+  "k > 0": String.raw`\(k>0\)`,
+  "k <= -5 or k >= 7": String.raw`\(k\le-5\) or \(k\ge7\)`,
+  "-5 < k < 7": String.raw`\(-5<k<7\)`,
+  "k = 1 only": String.raw`\(k=1\) only`,
+  "Minimum value of A(x)=x^2-10x+41": String.raw`Minimum value of \(A(x)=x^2-10x+41\)`,
+  "Find the axis of symmetry of y = 3x^2 - 12x + 1": String.raw`Find the axis of symmetry of \(y=3x^2-12x+1\)`,
+  "Discriminant of x^2 + 6x + 9 is:": String.raw`Discriminant of \(x^2+6x+9\) is:`,
+  "If roots of x^2 - 5x + 6 = 0 are r1 and r2, find r1+r2": String.raw`If roots of \(x^2-5x+6=0\) are \(r_1\) and \(r_2\), find \(r_1+r_2\)`,
+  "Minimum value of y = 2x^2 + 8x + 3": String.raw`Minimum value of \(y=2x^2+8x+3\)`,
+  "For line y = mx + 1 to be tangent to y = x^2 - 2x + 5, m can be:": String.raw`For line \(y=mx+1\) to be tangent to \(y=x^2-2x+5\), \(m\) can be:`,
+  "Evaluate: (3^2 - 5) * 2": String.raw`Evaluate: \((3^2-5)\times2\)`,
+  "Factorise x^2 - 9": String.raw`Factorise \(x^2-9\)`,
+  "(x-3)(x+3)": String.raw`\((x-3)(x+3)\)`,
+  "(x-9)(x+1)": String.raw`\((x-9)(x+1)\)`,
+  "(x-3)^2": String.raw`\((x-3)^2\)`,
+  "Solve for x: 5x - 12 = 18": String.raw`Solve for \(x\): \(5x-12=18\)`,
+  "Vertex of y = x^2 - 4x + 1": String.raw`Vertex of \(y=x^2-4x+1\)`,
+  "(2,-3)": String.raw`\((2,-3)\)`,
+  "(-2,3)": String.raw`\((-2,3)\)`,
+  "(4,1)": String.raw`\((4,1)\)`,
+  "(2,3)": String.raw`\((2,3)\)`,
+  "If f(x)=x^2, find f(5)-f(3)": String.raw`If \(f(x)=x^2\), find \(f(5)-f(3)\)`,
+  "For x^2 + 4x + 5 = 0, discriminant is:": String.raw`For \(x^2+4x+5=0\), discriminant is:`,
+  "Bag has 3 red, 2 blue. P(red first) is:": String.raw`Bag has \(3\) red, \(2\) blue. \(P(\text{red first})\) is:`,
+  "3/5": String.raw`\(\dfrac{3}{5}\)`,
+  "2/5": String.raw`\(\dfrac{2}{5}\)`,
+  "1/2": String.raw`\(\dfrac{1}{2}\)`,
+  "5/3": String.raw`\(\dfrac{5}{3}\)`,
+  "n(n+1) is always even because:": String.raw`\(n(n+1)\) is always even because:`,
+  "If 6 mins/question and 10 questions, total mins": String.raw`If \(6\) mins/question and \(10\) questions, total mins`
 };
 
 function formatDisplayMath(text) {
@@ -1231,8 +1244,13 @@ function renderInlineMathSafe(text) {
 
   // Process each part
   return parts.map(part => {
-    if (part.type === 'html' || part.type === 'math') {
+    if (part.type === 'html') {
       return part.content;
+    }
+    if (part.type === 'math') {
+      // Escape < and > so the browser doesn't parse them as HTML tags;
+      // MathJax reads decoded text content so &lt;/&gt; render correctly.
+      return part.content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
     // Escape text content
     return part.content
@@ -1338,6 +1356,8 @@ function markdownToTeachingHtml(markdown) {
   let mathBlockBuffer = [];
   let inCodeBlock = false;
   let codeBlockBuffer = [];
+  let inTable = false;
+  let tableHeaderDone = false;
 
   const flushList = () => {
     if (!inList) return;
@@ -1345,9 +1365,17 @@ function markdownToTeachingHtml(markdown) {
     inList = false;
   };
 
+  const flushTable = () => {
+    if (!inTable) return;
+    html.push("</tbody></table>");
+    inTable = false;
+    tableHeaderDone = false;
+  };
+
   const flushMathBlock = () => {
     if (mathBlockBuffer.length === 0) return;
-    html.push(mathBlockBuffer.join("\n"));
+    const escaped = mathBlockBuffer.join("\n").replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    html.push(escaped);
     mathBlockBuffer = [];
     inMathBlock = false;
   };
@@ -1402,6 +1430,7 @@ function markdownToTeachingHtml(markdown) {
     // Handle horizontal rules
     if (line === "---" || line === "***" || line === "___") {
       flushList();
+      flushTable();
       html.push("<hr>");
       continue;
     }
@@ -1409,33 +1438,66 @@ function markdownToTeachingHtml(markdown) {
     // Handle empty lines
     if (!line) {
       flushList();
+      flushTable();
+      continue;
+    }
+
+    // Handle markdown tables
+    if (line.startsWith("|")) {
+      flushList();
+      // Separator row (e.g. |---|---|) — transitions header → body
+      if (/^\|[-| :]+\|$/.test(line)) {
+        if (inTable && !tableHeaderDone) {
+          html.push("</thead><tbody>");
+          tableHeaderDone = true;
+        }
+        continue;
+      }
+      const cells = line.split("|").slice(1, -1).map(c => c.trim());
+      if (!inTable) {
+        html.push('<table class="md-table"><thead><tr>');
+        cells.forEach(c => html.push(`<th>${renderInlineMathSafe(processInlineMarkdown(c))}</th>`));
+        html.push("</tr>");
+        inTable = true;
+        tableHeaderDone = false;
+      } else {
+        const tag = tableHeaderDone ? "td" : "th";
+        html.push("<tr>");
+        cells.forEach(c => html.push(`<${tag}>${renderInlineMathSafe(processInlineMarkdown(c))}</${tag}>`));
+        html.push("</tr>");
+      }
       continue;
     }
 
     // Handle headers
     if (line.startsWith("#### ")) {
       flushList();
+      flushTable();
       html.push(`<h5>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(5))))}</h5>`);
       continue;
     }
     if (line.startsWith("### ")) {
       flushList();
+      flushTable();
       html.push(`<h4>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(4))))}</h4>`);
       continue;
     }
     if (line.startsWith("## ")) {
       flushList();
+      flushTable();
       html.push(`<h3>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(3))))}</h3>`);
       continue;
     }
     if (line.startsWith("# ")) {
       flushList();
+      flushTable();
       html.push(`<h2>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(line.slice(2))))}</h2>`);
       continue;
     }
 
     // Handle list items
     if (line.startsWith("- ") || line.startsWith("* ")) {
+      flushTable();
       if (!inList) {
         html.push("<ul>");
         inList = true;
@@ -1446,6 +1508,7 @@ function markdownToTeachingHtml(markdown) {
 
     // Handle numbered lists (simple)
     if (/^\d+\.\s/.test(line)) {
+      flushTable();
       if (!inList) {
         html.push("<ul>");
         inList = true;
@@ -1457,10 +1520,12 @@ function markdownToTeachingHtml(markdown) {
 
     // Regular paragraph
     flushList();
+    flushTable();
     html.push(`<p>${renderInlineMathSafe(processInlineMarkdown(formatDisplayMath(rawLine)))}</p>`);
   }
 
   flushList();
+  flushTable();
   flushMathBlock();
   flushCodeBlock();
   return html.join("\n");
@@ -1502,7 +1567,7 @@ function renderLessonList() {
   const list = document.getElementById("lessonList");
   list.innerHTML = "";
 
-  for (const lesson of window.ELITE_MATHS_DATA.lessons) {
+  for (const lesson of getActiveData().lessons) {
     const li = document.createElement("li");
     if (lesson.id === state.selectedLessonId) li.classList.add("active");
     li.innerHTML = `<strong>${lesson.title}</strong><span class="meta">${lesson.meta}</span>`;
@@ -1511,6 +1576,7 @@ function renderLessonList() {
       state.selectedLessonId = lesson.id;
       saveState();
       renderAll();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
     list.appendChild(li);
   }
@@ -1560,7 +1626,7 @@ function renderQuestionSet(formId, questions, lessonSnapshot, labelPrefix) {
     wrap.className = "question";
     wrap.innerHTML = `
       <div><strong>${labelPrefix}${i + 1}.</strong> ${renderInlineMathSafe(formatDisplayMath(q.prompt))}</div>
-      <div class="strand">Strand: ${window.ELITE_MATHS_DATA.strands[q.strand]}</div>
+      <div class="strand">Strand: ${getActiveData().strands[q.strand]}</div>
       ${renderQuestionInput(q)}
       <div class="question-actions">
         <button type="button" class="check-btn" data-question-id="${q.id}">Check</button>
@@ -1714,7 +1780,7 @@ function giveUpQuestion(questionId) {
 
 function calculateStrandAccuracyFromResults(results) {
   const map = {};
-  for (const [k] of Object.entries(window.ELITE_MATHS_DATA.strands)) {
+  for (const [k] of Object.entries(getActiveData().strands)) {
     map[k] = { attempted: 0, correct: 0, accuracy: 0 };
   }
   for (const item of results) {
@@ -1734,7 +1800,7 @@ function renderResult(score, results, quizDef, targetId) {
   for (const r of results) {
     const q = quizDef.find((x) => x.id === r.questionId);
     const mark = r.correct ? "✅" : "❌";
-    html += `<li>${mark} ${q.id} (${window.ELITE_MATHS_DATA.strands[r.strand]})</li>`;
+    html += `<li>${mark} ${q.id} (${getActiveData().strands[r.strand]})</li>`;
   }
   html += "</ul>";
   resultBox.innerHTML = html;
@@ -1743,7 +1809,7 @@ function renderResult(score, results, quizDef, targetId) {
 
 function buildStrandStats() {
   const stats = {};
-  for (const key of Object.keys(window.ELITE_MATHS_DATA.strands)) {
+  for (const key of Object.keys(getActiveData().strands)) {
     stats[key] = { attempted: 0, correct: 0, accuracy: 0 };
   }
 
@@ -1774,7 +1840,7 @@ function determineWeakStrands(globalStats, latestStats) {
 function pickAdaptiveQuestions(strands) {
   const picked = [];
   for (const strand of strands) {
-    const bank = window.ELITE_MATHS_DATA.adaptiveBank[strand] || [];
+    const bank = getActiveData().adaptiveBank[strand] || [];
     if (!bank.length) continue;
     const q = bank[Math.floor(Math.random() * bank.length)];
     picked.push({ ...q, strand });
@@ -1800,7 +1866,7 @@ function renderAdaptiveSection(questions) {
     wrap.className = "question";
     wrap.innerHTML = `
       <div><strong>A${i + 1}.</strong> ${renderInlineMathSafe(formatDisplayMath(q.prompt))}</div>
-      <div class="strand">Strand: ${window.ELITE_MATHS_DATA.strands[q.strand]}</div>
+      <div class="strand">Strand: ${getActiveData().strands[q.strand]}</div>
       ${renderQuestionInput(q)}
     `;
     form.appendChild(wrap);
@@ -1951,7 +2017,7 @@ function renderAnalytics() {
   for (const [key, s] of Object.entries(stats)) {
     const statusClass = s.accuracy >= 85 ? "tag-high" : s.accuracy >= 70 ? "tag-mid" : "tag-low";
     const statusText = s.attempted === 0 ? "No data" : s.accuracy >= 85 ? "Strong" : s.accuracy >= 70 ? "Watch" : "Weak";
-    table += `<tr><td>${window.ELITE_MATHS_DATA.strands[key]}</td><td>${s.accuracy.toFixed(1)}%</td><td class='${statusClass}'>${statusText}</td></tr>`;
+    table += `<tr><td>${getActiveData().strands[key]}</td><td>${s.accuracy.toFixed(1)}%</td><td class='${statusClass}'>${statusText}</td></tr>`;
   }
   table += "</table>";
   tableWrap.innerHTML = table;
@@ -1966,7 +2032,7 @@ function renderAnalytics() {
   } else {
     for (const [key, s] of weak) {
       const li = document.createElement("li");
-      li.textContent = `${window.ELITE_MATHS_DATA.strands[key]} (${s.accuracy.toFixed(1)}%) - assign targeted drills.`;
+      li.textContent = `${getActiveData().strands[key]} (${s.accuracy.toFixed(1)}%) - assign targeted drills.`;
       focusList.appendChild(li);
     }
   }
@@ -1989,7 +2055,7 @@ function exportCsv() {
   rows.push([]);
   rows.push(["Strand", "Attempted", "Correct", "Accuracy"]);
   for (const [key, s] of Object.entries(stats)) {
-    rows.push([window.ELITE_MATHS_DATA.strands[key], s.attempted, s.correct, s.accuracy.toFixed(1)]);
+    rows.push([getActiveData().strands[key], s.attempted, s.correct, s.accuracy.toFixed(1)]);
   }
 
   const csv = rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
@@ -2010,7 +2076,7 @@ function printSummary() {
   const avgScore = attemptsCount ? state.attempts.reduce((a, b) => a + b.score, 0) / attemptsCount : 0;
 
   const lines = Object.entries(stats)
-    .map(([k, s]) => `<tr><td>${window.ELITE_MATHS_DATA.strands[k]}</td><td>${s.attempted}</td><td>${s.correct}</td><td>${s.accuracy.toFixed(1)}%</td></tr>`)
+    .map(([k, s]) => `<tr><td>${getActiveData().strands[k]}</td><td>${s.attempted}</td><td>${s.correct}</td><td>${s.accuracy.toFixed(1)}%</td></tr>`)
     .join("");
 
   const recent = [...state.attempts].slice(-10).reverse().map((a) => `<li>${a.lessonId} (${a.attemptType || "lesson"}) - ${a.score.toFixed(1)}%</li>`).join("");
@@ -2094,6 +2160,14 @@ function bindEvents() {
     renderAll();
   });
 
+  document.getElementById("streamSelect").addEventListener("change", (e) => {
+    persistCurrentLessonProgress();
+    state.activeStream = e.target.value;
+    state.selectedLessonId = getActiveData().lessons[0]?.id;
+    saveState();
+    renderAll();
+  });
+
   document.getElementById("resetProgressBtn").addEventListener("click", () => {
     const yes = confirm("Reset all quiz attempts and weakness data?");
     if (!yes) return;
@@ -2107,7 +2181,7 @@ function bindEvents() {
 
 function renderAll() {
   if (!state.selectedLessonId || !getLessonById(state.selectedLessonId)) {
-    state.selectedLessonId = window.ELITE_MATHS_DATA.lessons[0]?.id;
+    state.selectedLessonId = getActiveData().lessons[0]?.id;
   }
   renderLessonList();
   renderLessonContent();
